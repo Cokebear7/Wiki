@@ -7,7 +7,7 @@
       >
         <a-sub-menu key="sub1">
           <template #title>
-            <span><user-outlined />subnav 111111</span>
+            <span><user-outlined />subnav 11111</span>
           </template>
           <a-menu-item key="1">option1</a-menu-item>
           <a-menu-item key="2">option2</a-menu-item>
@@ -37,22 +37,39 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
-      Content
+      <pre>
+{{ebooks}}
+{{ebooks2}}
+      </pre>
     </a-layout-content>
   </a-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref, reactive, toRef } from 'vue';
 import axios from 'axios';
 
 export default defineComponent({
   name: 'Home',
   setup() {
     console.log("setup");
-    axios.get("http://127.0.0.1:8880/ebook/list?name=Spring").then((response) => {
-      console.log(response);
-    })
+    const ebooks = ref();
+    const ebooks1 = reactive({books: []});
+
+    onMounted(() => {
+      console.log("onMounted");
+      axios.get("http://127.0.0.1:8880/ebook/list?name=Spring").then((response) => {
+        const data = response.data;
+        ebooks.value = data.content;
+        ebooks1.books = data.content;
+        console.log(response);
+      });
+    });
+
+    return {
+      ebooks,
+      ebooks2: toRef(ebooks1, "books")
+    }
   }
 });
 </script>
