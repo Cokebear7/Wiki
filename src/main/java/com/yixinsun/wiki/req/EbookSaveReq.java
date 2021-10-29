@@ -1,6 +1,6 @@
-package com.yixinsun.wiki.resp;
+package com.yixinsun.wiki.req;
 
-public class EbookResp {
+public class EbookSaveReq {
     private Long id;
 
     private String name;
@@ -110,4 +110,3 @@ public class EbookResp {
         return sb.toString();
     }
 }
-
