@@ -8,9 +8,10 @@ import com.yixinsun.wiki.exception.BusinessException;
 import com.yixinsun.wiki.exception.BusinessExceptionCode;
 import com.yixinsun.wiki.mapper.UserMapper;
 import com.yixinsun.wiki.req.UserQueryReq;
+import com.yixinsun.wiki.req.UserResetPasswordReq;
 import com.yixinsun.wiki.req.UserSaveReq;
-import com.yixinsun.wiki.resp.UserQueryResp;
 import com.yixinsun.wiki.resp.PageResp;
+import com.yixinsun.wiki.resp.UserQueryResp;
 import com.yixinsun.wiki.util.CopyUtil;
 import com.yixinsun.wiki.util.SnowFlake;
 import org.slf4j.Logger;
@@ -103,5 +104,13 @@ public class UserService {
         } else {
             return userList.get(0);
         }
+    }
+
+    /**
+     * 修改密码
+     */
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }
