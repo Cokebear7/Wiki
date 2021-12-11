@@ -7,10 +7,12 @@ import com.yixinsun.wiki.domain.UserExample;
 import com.yixinsun.wiki.exception.BusinessException;
 import com.yixinsun.wiki.exception.BusinessExceptionCode;
 import com.yixinsun.wiki.mapper.UserMapper;
+import com.yixinsun.wiki.req.UserLoginReq;
 import com.yixinsun.wiki.req.UserQueryReq;
 import com.yixinsun.wiki.req.UserResetPasswordReq;
 import com.yixinsun.wiki.req.UserSaveReq;
 import com.yixinsun.wiki.resp.PageResp;
+import com.yixinsun.wiki.resp.UserLoginResp;
 import com.yixinsun.wiki.resp.UserQueryResp;
 import com.yixinsun.wiki.util.CopyUtil;
 import com.yixinsun.wiki.util.SnowFlake;
@@ -112,5 +114,27 @@ public class UserService {
     public void resetPassword(UserResetPasswordReq req) {
         User user = CopyUtil.copy(req, User.class);
         userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    /**
+     * 登录
+     */
+    public UserLoginResp login(UserLoginReq req) {
+        User userDb = selectByLoginName(req.getLoginName());
+        if (ObjectUtils.isEmpty(userDb)) {
+            // 用户名不存在
+            LOG.info("用户名不存在, {}", req.getLoginName());
+            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+        } else {
+            if (userDb.getPassword().equals(req.getPassword())) {
+                // 登录成功
+                UserLoginResp userLoginResp = CopyUtil.copy(userDb, UserLoginResp.class);
+                return userLoginResp;
+            } else {
+                // 密码不对
+                LOG.info("密码不对, 输入密码：{}, 数据库密码：{}", req.getPassword(), userDb.getPassword());
+                throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+            }
+        }
     }
 }
