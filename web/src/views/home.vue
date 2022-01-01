@@ -9,7 +9,7 @@
       >
         <a-menu-item key="welcome">
           <MailOutlined />
-          <span>欢迎</span>
+          <span>Welcome</span>
         </a-menu-item>
         <a-sub-menu v-for="item in level1" :key="item.id" :disabled="true">
           <template v-slot:title>

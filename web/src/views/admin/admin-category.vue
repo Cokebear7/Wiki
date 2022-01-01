@@ -7,12 +7,12 @@
         <a-form layout="inline" :model="param">
           <a-form-item>
             <a-button type="primary" @click="handleQuery()">
-              查询
+              Search
             </a-button>
           </a-form-item>
           <a-form-item>
             <a-button type="primary" @click="add()">
-              新增
+              New Category
             </a-button>
           </a-form-item>
         </a-form>
@@ -20,7 +20,7 @@
       <p>
         <a-alert
             class="tip"
-            message="小提示：这里的分类会显示到首页的侧边菜单"
+            message="Tip: The categories here will be displayed on the side menu of the homepage"
             type="info"
             closable
         />
@@ -40,16 +40,16 @@
         <template v-slot:action="{ text, record }">
           <a-space size="small">
             <a-button type="primary" @click="edit(record)">
-              编辑
+              Edit
             </a-button>
             <a-popconfirm
-                title="删除后不可恢复，确认删除?"
-                ok-text="是"
-                cancel-text="否"
+                title="Cannot be restored after deletion, confirm to delete?"
+                ok-text="Yes"
+                cancel-text="No"
                 @confirm="handleDelete(record.id)"
             >
               <a-button type="danger">
-                删除
+                Delete
               </a-button>
             </a-popconfirm>
           </a-space>
@@ -59,29 +59,29 @@
   </a-layout>
 
   <a-modal
-      title="分类表单"
+      title="Category Information"
       v-model:visible="modalVisible"
       :confirm-loading="modalLoading"
       @ok="handleModalOk"
   >
     <a-form :model="category" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-      <a-form-item label="名称">
+      <a-form-item label="Name">
         <a-input v-model:value="category.name" />
       </a-form-item>
-      <a-form-item label="父分类">
+      <a-form-item label="Parent Category">
         <a-select
             v-model:value="category.parent"
             ref="select"
         >
           <a-select-option :value="0">
-            无
+            None
           </a-select-option>
           <a-select-option v-for="c in level1" :key="c.id" :value="c.id" :disabled="category.id === c.id">
             {{c.name}}
           </a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item label="顺序">
+      <a-form-item label="Order">
         <a-input v-model:value="category.sort" />
       </a-form-item>
     </a-form>
@@ -104,7 +104,7 @@ export default defineComponent({
 
     const columns = [
       {
-        title: '名称',
+        title: 'Name',
         dataIndex: 'name'
       },
       // {
@@ -113,7 +113,7 @@ export default defineComponent({
       //   dataIndex: 'parent'
       // },
       {
-        title: '顺序',
+        title: 'Order',
         dataIndex: 'sort'
       },
       {

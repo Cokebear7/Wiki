@@ -2,7 +2,7 @@
   <div>
     <a-alert
         class="tip"
-        message="小提示：统计数据有一分钟左右延时"
+        message="Tip: Statistics will be delayed for about one minute"
         type="info"
         closable
     />
@@ -12,21 +12,21 @@
         <a-card>
           <a-row>
             <a-col :span="8">
-              <a-statistic title="总阅读量" :value="statistic.viewCount">
+              <a-statistic title="Total Reads" :value="statistic.viewCount">
                 <template #suffix>
                   <UserOutlined />
                 </template>
               </a-statistic>
             </a-col>
             <a-col :span="8">
-              <a-statistic title="总点赞量" :value="statistic.voteCount">
+              <a-statistic title="Total Likes" :value="statistic.voteCount">
                 <template #suffix>
                   <like-outlined />
                 </template>
               </a-statistic>
             </a-col>
             <a-col :span="8">
-              <a-statistic title="点赞率" :value="statistic.voteCount / statistic.viewCount * 100"
+              <a-statistic title="Like Ratio" :value="statistic.voteCount / statistic.viewCount * 100"
                            :precision="2"
                            suffix="%"
                            :value-style="{ color: '#cf1322' }">
@@ -45,14 +45,14 @@
         <a-card>
           <a-row>
             <a-col :span="12">
-              <a-statistic title="今日阅读" :value="statistic.todayViewCount" style="margin-right: 50px">
+              <a-statistic title="Today's Reads" :value="statistic.todayViewCount" style="margin-right: 50px">
                 <template #suffix>
                   <UserOutlined />
                 </template>
               </a-statistic>
             </a-col>
             <a-col :span="12">
-              <a-statistic title="今日点赞" :value="statistic.todayVoteCount">
+              <a-statistic title="Today's Likes" :value="statistic.todayVoteCount">
                 <template #suffix>
                   <like-outlined />
                 </template>
@@ -66,7 +66,7 @@
           <a-row>
             <a-col :span="12">
               <a-statistic
-                  title="预计今日阅读"
+                  title="Estimated Total Reads Today"
                   :value="statistic.todayViewIncrease"
                   :value-style="{ color: '#0000ff' }"
               >
@@ -77,7 +77,7 @@
             </a-col>
             <a-col :span="12">
               <a-statistic
-                  title="预计今日阅读增长"
+                  title="Estimated Reads Growth Today"
                   :value="statistic.todayViewIncreaseRateAbs"
                   :precision="2"
                   suffix="%"
@@ -153,13 +153,13 @@ export default defineComponent({
       // 指定图表的配置项和数据
       const option = {
         title: {
-          text: '30天趋势图'
+          text: '30-Day Trend Chart'
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['总阅读量', '总点赞量']
+          data: ['Reads', 'Likes']
         },
         grid: {
           left: '1%',
@@ -182,14 +182,14 @@ export default defineComponent({
         },
         series: [
           {
-            name: '总阅读量',
+            name: 'Reads',
             type: 'line',
             // stack: '总量', 不堆叠
             data: seriesView,
             smooth: true
           },
           {
-            name: '总点赞量',
+            name: 'Likes',
             type: 'line',
             // stack: '总量', 不堆叠
             data: seriesVote,

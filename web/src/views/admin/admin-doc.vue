@@ -9,12 +9,12 @@
             <a-form layout="inline" :model="param">
               <a-form-item>
                 <a-button type="primary" @click="handleQuery()">
-                  查询
+                  Search
                 </a-button>
               </a-form-item>
               <a-form-item>
                 <a-button type="primary" @click="add()">
-                  新增
+                  New Document
                 </a-button>
               </a-form-item>
             </a-form>
@@ -35,16 +35,16 @@
             <template v-slot:action="{ text, record }">
               <a-space size="small">
                 <a-button type="primary" @click="edit(record)" size="small">
-                  编辑
+                  Edit
                 </a-button>
                 <a-popconfirm
-                    title="删除后不可恢复，确认删除?"
-                    ok-text="是"
-                    cancel-text="否"
+                    title="Cannot be restored after deletion, confirm the deletion?"
+                    ok-text="Yes"
+                    cancel-text="No"
                     @confirm="handleDelete(record.id)"
                 >
                   <a-button type="danger" size="small">
-                    删除
+                    Delete
                   </a-button>
                 </a-popconfirm>
               </a-space>
@@ -56,14 +56,14 @@
             <a-form layout="inline" :model="param">
               <a-form-item>
                 <a-button type="primary" @click="handleSave()">
-                  保存
+                  Save
                 </a-button>
               </a-form-item>
             </a-form>
           </p>
           <a-form :model="doc" layout="vertical">
             <a-form-item>
-              <a-input v-model:value="doc.name" placeholder="名称"/>
+              <a-input v-model:value="doc.name" placeholder="Title"/>
             </a-form-item>
             <a-form-item>
               <a-tree-select
@@ -71,18 +71,18 @@
                   style="width: 100%"
                   :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
                   :tree-data="treeSelectData"
-                  placeholder="请选择父文档"
+                  placeholder="Please select the parent document"
                   tree-default-expand-all
                   :replaceFields="{title: 'name', key: 'id', value: 'id'}"
               >
               </a-tree-select>
             </a-form-item>
             <a-form-item>
-              <a-input v-model:value="doc.sort" placeholder="顺序"/>
+              <a-input v-model:value="doc.sort" placeholder="Order"/>
             </a-form-item>
             <a-form-item>
               <a-button type="primary" @click="handlePreviewContent()">
-                <EyeOutlined /> 内容预览
+                <EyeOutlined /> Preview
               </a-button>
             </a-form-item>
             <a-form-item>
@@ -185,7 +185,7 @@ export default defineComponent({
           // 父文档下拉框初始化，相当于点击新增
           treeSelectData.value = Tool.copy(level1.value) || [];
           // 为选择树添加一个"无"
-          treeSelectData.value.unshift({id: 0, name: '无'});
+          treeSelectData.value.unshift({id: 0, name: 'None'});
         } else {
           message.error(data.message);
         }
@@ -214,7 +214,7 @@ export default defineComponent({
         const data = response.data; // data = commonResp
         if (data.success) {
           // modalVisible.value = false;
-          message.success("保存成功！");
+          message.success("Saved successfully！");
 
           // 重新加载列表
           handleQuery();
@@ -319,7 +319,7 @@ export default defineComponent({
       setDisable(treeSelectData.value, record.id);
 
       // 为选择树添加一个"无"
-      treeSelectData.value.unshift({id: 0, name: '无'});
+      treeSelectData.value.unshift({id: 0, name: 'None'});
     };
 
     /**
@@ -336,7 +336,7 @@ export default defineComponent({
       treeSelectData.value = Tool.copy(level1.value) || [];
 
       // 为选择树添加一个"无"
-      treeSelectData.value.unshift({id: 0, name: '无'});
+      treeSelectData.value.unshift({id: 0, name: 'None'});
     };
 
     const handleDelete = (id: number) => {
@@ -346,9 +346,9 @@ export default defineComponent({
       deleteNames.length = 0;
       getDeleteIds(level1.value, id);
       Modal.confirm({
-        title: '重要提醒',
+        title: 'Important Reminder',
         icon: createVNode(ExclamationCircleOutlined),
-        content: '将删除：【' + deleteNames.join("，") + "】删除后不可恢复，确认删除？",
+        content: '【' + deleteNames.join("，") + "】will be deleted. Cannot be restored after deletion, confirm to delete?",
         onOk() {
           // console.log(ids)
           axios.delete("/doc/delete/" + deleteIds.join(",")).then((response) => {
